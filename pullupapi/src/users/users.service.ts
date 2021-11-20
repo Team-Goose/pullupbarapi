@@ -19,7 +19,7 @@ export class UsersService {
 
   async findRange(id: number, range: number){
     var repoSize = await(this.repo.count());
-    if(repoSize <= range) return this.findAll();
+    if(repoSize <= range) return this.repo.find({order:{score:"DESC"}});
 
     var orderedByScores = await(this.repo.find({
       order: {
@@ -61,10 +61,7 @@ export class UsersService {
   }
 
   async findTop(range: number){
-    if(await(this.repo.count()) <= range) return this.findAll();
-    var ids = [];
-    for(let i = 1; i <= range; i++)
-      ids.push(i);
+    if(await(this.repo.count()) <= range) return this.repo.find({order:{score:"DESC"}});
     return this.repo.find({
       order: {
         score: "DESC"

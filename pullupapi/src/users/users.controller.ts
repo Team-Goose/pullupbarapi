@@ -35,7 +35,6 @@ export class UsersController {
 
   @Post('update/id=:id')
   async update(@Param('id') id: number, @Body() user: User) {
-    console.log("HERE");
     return await(this.usersService.update(id, user));
   }
 
