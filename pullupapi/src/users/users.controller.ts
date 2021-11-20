@@ -8,29 +8,39 @@ import { User } from './entities/user.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('create')
   async create(@Body() user: User) {
-    console.log("MADE IT");
     return this.usersService.create(user);
   }
 
   @Get('all')
   async findAll() {
-    return await this.usersService.findAll();
+    return await(this.usersService.findAll());
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get('range/id=:id/range=:range')
+  async findRange(@Param('id') id: number, @Param('range') range: number){
+    return await(this.usersService.findRange(id, range));
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() user: User) {
-    return this.usersService.update(+id, user);
+  @Get('top/range=:range')
+  async findTop(@Param('range') range: number){
+    return await(this.usersService.findTop(range));
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Get('get/id=:id')
+  async findOne(@Param('id') id: number) {
+    return await(this.usersService.findOne(id));
+  }
+
+  @Post('update/id=:id')
+  async update(@Param('id') id: number, @Body() user: User) {
+    console.log("HERE");
+    return await(this.usersService.update(id, user));
+  }
+
+  @Delete('delete/id=:id')
+  async remove(@Param('id') id: number) {
+    return await(this.usersService.remove(id));
   }
 }
